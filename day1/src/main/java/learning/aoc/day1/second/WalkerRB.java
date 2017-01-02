@@ -11,7 +11,7 @@ public class WalkerRB extends RouteBuilder {
     public void configure() throws Exception {
         from("direct:start-second-half")
                 .convertBodyTo(String.class)
-                .log("Elaborate first.input: [${body}]")
+                .log("Elaborate second.input: [${body}]")
                 .setProperty("kieSession", method(KieUtils.class, "buildKieSessionSecondHalf(${exchange})"))
                 .split(simple("${body}")).streaming().aggregationStrategy(AggregationStrategies.useLatest())
                     .transform(simple("${body.trim()}"))
