@@ -1,0 +1,25 @@
+import learning.aoc.day1.model.Walker
+
+dialect "mvel"
+
+global Walker walker
+
+rule "move to the right"
+    when
+        $r : String(this matches "R([0-9]+)")
+    then
+        $i = new Integer($r.substring(1));
+        System.out.println("move right " + $i);
+        walker.right($i);
+        retract($r);
+end
+
+rule "move to the left"
+    when
+        $r : String(this matches "L([0-9]+)")
+    then
+        $i = new Integer($r.substring(1));
+        System.out.println("move left " + $i);
+        walker.left($i);
+        retract($r);
+end

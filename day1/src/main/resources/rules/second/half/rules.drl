@@ -1,0 +1,48 @@
+import learning.aoc.day1.model.Walker
+import learning.aoc.day1.model.Position
+import learning.aoc.day1.rules.RuleLocker
+
+dialect "mvel"
+
+global Walker walker
+
+rule "move to the right"
+salience 10
+    when
+        $r : String(this matches "R([0-9]+)")
+        $i : Integer() from new Integer($r.substring(1))
+        $p : Position() from walker.right($i)
+    then
+        insert($p)
+end
+
+rule "move to the left"
+salience 10
+    when
+        $r : String(this matches "L([0-9]+)")
+        $i : Integer() from new Integer($r.substring(1))
+        $p : Position() from walker.left($i)
+    then
+        insert($p)
+end
+
+rule "remove string"
+salience 0
+    when
+        $r : String(this matches "(L|R)([0-9]+)")
+    then
+        retract($r)
+end
+
+rule "same position"
+    when
+        not RuleLocker()
+        $p1 : Position($x:x, $y:y)
+        $p2 : Position(this != $p1, x == $x, y == $y)
+    then
+        insert(new RuleLocker())
+        System.out.println("Walker is on the same position");
+        System.out.println("Position1 -> ["+$p1+"]");
+        System.out.println("Position2 -> ["+$p2+"]");
+        channels["position"].send($p1);
+end
