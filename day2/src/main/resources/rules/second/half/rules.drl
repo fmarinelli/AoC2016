@@ -1,0 +1,71 @@
+import learning.aoc.day2.second.model.RealPadButton
+
+dialect "mvel"
+
+rule "create Pad"
+    when
+        String()
+        not RealPadButton()
+    then
+        insert(RealPadButton.FIVE)
+end
+
+rule "game end"
+    when
+        String(this matches "")
+        $p : RealPadButton()
+    then
+        channels["button"].send($p.getButton());
+end
+
+rule "move to the up"
+    when
+        $p: RealPadButton()
+        $s: String(this != "", $c : this.charAt(0) == "U")
+    then
+        retract($s)
+
+        retract($p)
+        insert($p.up())
+
+        insert($s.substring(1))
+end
+
+rule "move to the left"
+    when
+        $p: RealPadButton()
+        $s: String(this != "", $c : this.charAt(0) == "L")
+    then
+        retract($s)
+
+        retract($p)
+        insert($p.left())
+
+        insert($s.substring(1))
+end
+
+rule "move to the down"
+    when
+        $p: RealPadButton()
+        $s: String(this != "", $c : this.charAt(0) == "D")
+    then
+        retract($s)
+
+        retract($p)
+        insert($p.down())
+
+        insert($s.substring(1))
+end
+
+rule "move to the right"
+    when
+        $p: RealPadButton()
+        $s: String(this != "", $c : this.charAt(0) == "R")
+    then
+        retract($s)
+
+        retract($p)
+        insert($p.right())
+
+        insert($s.substring(1))
+end
