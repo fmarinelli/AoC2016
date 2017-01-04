@@ -31,8 +31,10 @@
     </properties>
 
     <modules>
+        <module>common</module>
         <module>day1</module>
         <module>day2</module>
+        <module>day3</module>
     </modules>
 
     <dependencyManagement>
@@ -63,6 +65,12 @@
                 <groupId>ch.qos.logback</groupId>
                 <artifactId>logback-classic</artifactId>
                 <version>${version.logback}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>learning.aoc</groupId>
+                <artifactId>common</artifactId>
+                <version>${project.version}</version>
             </dependency>
 
             <!--TEST-->

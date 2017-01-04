@@ -1,0 +1,24 @@
+import learning.aoc.day3.first.model.Triangle
+
+dialect "mvel"
+
+rule "validate triangle"
+salience 10
+    when
+        $t : Triangle($a: a, $b: b, $c: c)
+        eval($a + $b > $c)
+        eval($a + $c > $b)
+        eval($c + $b > $a)
+    then
+        retract($t)
+        channels["valid"].send($t);
+end
+
+rule "invalidate triangle"
+salience 0
+    when
+        $t : Triangle($a: a, $b: b, $c: c)
+    then
+        retract($t)
+        channels["invalid"].send($t);
+end
