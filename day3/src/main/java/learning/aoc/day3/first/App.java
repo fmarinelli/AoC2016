@@ -1,11 +1,7 @@
 package learning.aoc.day3.first;
 
 import learning.aoc.camel.CamelApp;
-import org.apache.camel.ProducerTemplate;
 import org.apache.camel.builder.RouteBuilder;
-import org.apache.camel.main.MainSupport;
-
-import java.io.InputStream;
 
 public class App extends CamelApp {
 
@@ -21,16 +17,14 @@ public class App extends CamelApp {
         };
     }
 
+    @Override
+    public Object getInput() {
+        return Thread.currentThread().getContextClassLoader().getResourceAsStream("first.input");
+    }
 
     @Override
-    public void afterStart(MainSupport main) {
-        try {
-            ProducerTemplate camelTemplate = main.getCamelTemplate();
-            InputStream input = Thread.currentThread().getContextClassLoader().getResourceAsStream("first.input");
-            camelTemplate.sendBody("direct:start-first-half", input);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+    public String getEndpoint() {
+        return "direct:start-first-half";
     }
 
 }
