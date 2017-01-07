@@ -1,7 +1,6 @@
 package learning.aoc.day3.first;
 
 import learning.aoc.day3.first.model.Triangle;
-import learning.aoc.day3.rules.AggregateSumIntegers;
 import learning.aoc.day3.utils.KieUtils;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.model.dataformat.BindyType;

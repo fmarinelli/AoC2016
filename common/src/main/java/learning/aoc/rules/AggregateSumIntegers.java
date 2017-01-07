@@ -1,4 +1,4 @@
-package learning.aoc.day3.rules;
+package learning.aoc.rules;
 
 public class AggregateSumIntegers {
 
