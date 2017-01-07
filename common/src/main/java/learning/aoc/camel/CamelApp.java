@@ -1,16 +1,18 @@
 package learning.aoc.camel;
 
 import org.apache.camel.CamelContext;
+import org.apache.camel.ProducerTemplate;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.main.Main;
 import org.apache.camel.main.MainListener;
 import org.apache.camel.main.MainSupport;
 
+import java.io.InputStream;
 import java.util.Arrays;
 
 public abstract class CamelApp implements MainListener {
 
-    public void run(String[] args) throws Exception {
+    public final void run(String[] args) throws Exception {
         // create a Main instance
         Main main = new Main();
 
@@ -24,6 +26,10 @@ public abstract class CamelApp implements MainListener {
         main.run(addOption(args, "-d", "10"));
     }
 
+    public abstract Object getInput();
+
+    public abstract String getEndpoint();
+
     public abstract RouteBuilder[] buildRoutes();
 
     // Listener
@@ -36,7 +42,13 @@ public abstract class CamelApp implements MainListener {
     }
 
     @Override
-    public void afterStart(MainSupport main) {
+    public final void afterStart(MainSupport main) {
+        try {
+            ProducerTemplate camelTemplate = main.getCamelTemplate();
+            camelTemplate.sendBody(getEndpoint(), getInput());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
