@@ -9,6 +9,7 @@ import org.junit.Test;
 
 public class TestFirstHalf extends CamelTestSupport {
 
+
     @Override
     protected RoutesBuilder createRouteBuilder() throws Exception {
         return new WalkerRB();
