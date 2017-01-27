@@ -1,0 +1,8 @@
+LPAR=1
+RPAR=2
+X=3
+INT=4
+UNKNOWN=5
+'('=1
+')'=2
+'x'=3
